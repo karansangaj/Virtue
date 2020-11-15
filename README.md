@@ -48,30 +48,28 @@ Known Issue: Console Cannot be set to False in setup.spec file
 ## Application Voice Commands Examples
 
 ### Maths
-multiply 20 by 2
-divide 20 by 2
-what is 20 minus 2
-what is 20 plus 2
-what is square of 20
-what is root of 20
+1) multiply 20 by 2
+2) divide 20 by 2
+3) what is 20 minus 2
+4) what is 20 plus 2
+5) what is square of 20
+6) what is root of 20
 
 ### Weather
-what is the weather
-what is the weather in Newyork
-what is current weather
+1) what is the weather
+2) what is the weather in Newyork
+3) what is current weather
 
 ### Volume
-increase the volume
-decrease the volume
+1) increase the volume
+2) decrease the volume
 
 ### Brightness
-what is the current brightness
-increase brightness
-increase brightness by 10
-decrease brightness
+1) what is the current brightness
+2) increase brightness
+3) increase brightness by 10
+4) decrease brightness
 
 ### Open Applications
 1) Open Netflix
 2) Open Calculator
-
-
