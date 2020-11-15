@@ -1,0 +1,15 @@
+pip install numpy==1.9.3
+pip install mysql-connector-python
+pip install PyCryptodome
+pip install PyCryptodomex
+pip install pillow
+pip install pywin32
+pip install pyinstaller
+pip install pyttsx3
+pip install SpeechRecognition
+pip install beautifulsoup4
+pip install requests
+pip install pynput==1.6.8
+pip install screen-brightness-control
+pip install SpeechRecognition
+pip install PyAudio-0.2.11-cp39-cp39-win_amd64.whl
