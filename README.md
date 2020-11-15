@@ -7,15 +7,15 @@ A) Libraries
 
 1) Go to Prerequisite folder
 2) Copy PyAudio-0.2.11-cp39-cp39-win_amd64.whl (Python 3.9) and prerequisite.bat to local computer.
-3) Files must be copied to BaseFolder\Python\Python39\Scripts.
+3) Files must be copied to BaseFolder\Python\Python39\Scripts\.
 4) Run prerequisite.bat
 5) Make sure all required libraries are Installed correctly.
 
 B) Keys
 
 1) Go to Prerequisite folder
-2) Copy datapass_virtue.py to local computer.
-3) File must be copied to BaseFolder\Python\Python39\Lib\site-packages.
+2) Copy datapass_virtue.py and datapass_us.py to local computer.
+3) File must be copied to BaseFolder\Python\Python39\Lib\site-packages\.
 
 Notes:
 1) Download Pyaudio depending on python version Installed : https://www.lfd.uci.edu/~gohlke/pythonlibs/
@@ -36,5 +36,5 @@ Notes:
 ## Standalone App
 
 Download .exe App from link 
-https://drive.google.com/file/d/15wf8eOsnx8tXm2Q7bGGDEGqj9XmxtI-U/view?usp=sharing
+https://drive.google.com/file/d/1PuYDevteuUgIEEAztQ5kNRcI0FOTWCGA/view?usp=sharing
 
