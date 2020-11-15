@@ -38,3 +38,22 @@ Notes:
 Download .exe App from link 
 https://drive.google.com/file/d/1i283f3cbwo0hkybx_hIKHBAD6pK2WAPP/view?usp=sharing
 
+Known Issue: Console Cannot be set to False in setup.spec file
+
+## Code Notes
+
+1) globals variables are used as globals because tkinter widgets caanot be referred as string variable.
+2) Classes are used for classification rather than what there function.
+
+## Application Voice Commands
+
+### Maths
+
+### Weather
+
+### Volume
+
+### Brightness
+
+### Open Applications
+
