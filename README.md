@@ -1,7 +1,7 @@
 # Virtue
 ISE 535 Project
 
-Prerequisites
+## Prerequisites
 
 A) Libraries
 
@@ -21,18 +21,18 @@ Notes:
 1) Download Pyaudio depending on python version Installed : https://www.lfd.uci.edu/~gohlke/pythonlibs/
 2) BaseFolder : C:\Users\Username\AppData\Local\Programs\
 
-Requirements
+## Requirements
 
 1) Windows 10
 2) Python 3.9 (May run on 3.8.5,3.8.6 - Not tested)
 
-Instructions
+## Instructions
 
 1) Complete Prerequisites.
 2) Keep Database folder and Virtue.py in same folder.
 3) Run Virtue.py
 
-#Standalone App
+## Standalone App
 
 Download .exe App from link below
 
