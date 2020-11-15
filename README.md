@@ -19,7 +19,7 @@ B) Keys
 
 Notes:
 1) Download Pyaudio depending on python version Installed : https://www.lfd.uci.edu/~gohlke/pythonlibs/
-2) BaseFolder : C:\Users\Username\AppData\Local\Programs\
+2) BaseFolder : C:\Users\Username\AppData\Local\Programs\  or where your python Installation exists.
 
 ## Requirements
 
