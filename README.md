@@ -43,17 +43,35 @@ Known Issue: Console Cannot be set to False in setup.spec file
 ## Code Notes
 
 1) globals variables are used as globals because tkinter widgets caanot be referred as string variable.
-2) Classes are used for classification rather than what there function.
+2) Classes are used for classification rather than there original use.
 
-## Application Voice Commands
+## Application Voice Commands Examples
 
 ### Maths
+multiply 20 by 2
+divide 20 by 2
+what is 20 minus 2
+what is 20 plus 2
+what is square of 20
+what is root of 20
 
 ### Weather
+what is the weather
+what is the weather in Newyork
+what is current weather
 
 ### Volume
+increase the volume
+decrease the volume
 
 ### Brightness
+what is the current brightness
+increase brightness
+increase brightness by 10
+decrease brightness
 
 ### Open Applications
+1) Open Netflix
+2) Open Calculator
+
 
