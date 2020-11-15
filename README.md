@@ -25,6 +25,7 @@ Notes:
 
 1) Windows 10
 2) Python 3.9 (May run on 3.8.5,3.8.6 - Not tested)
+3) Mic and Speaker
 
 ## Instructions
 
