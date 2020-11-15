@@ -1,0 +1,7 @@
+host = "virtue.cifsln5npbe6.ap-south-1.rds.amazonaws.com"
+user = "virtue"
+password = "Mysql0607"
+port = "3306"
+db = "virtue"
+Email = "team3donotreply@gmail.com"
+Epass = "Team3@DNR19"
