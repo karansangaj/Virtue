@@ -35,6 +35,6 @@ Notes:
 
 ## Standalone App
 
-Download .exe App from link below
-https://drive.google.com/file/d/1y5ccSWMurxMBBQjLl-hvyeXHjsBOjXSc/view?usp=sharing
+Download .exe App from link 
+https://drive.google.com/file/d/15wf8eOsnx8tXm2Q7bGGDEGqj9XmxtI-U/view?usp=sharing
 
