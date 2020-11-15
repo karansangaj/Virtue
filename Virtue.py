@@ -1,12 +1,26 @@
 from tkinter import *
-import os
-import io
-import uuid
+import base64
 import ctypes
+import hashlib
+import io
+import json
 import math
-from PIL import Image, ImageTk
 import mysql.connector
-import datapass_virtue
+import os
+import pyttsx3
+import random
+import requests
+import re
+import screen_brightness_control as sbc
+import smtplib
+import speech_recognition as sr
+import sys
+import textwrap
+import time as times
+import threading
+import urllib.request
+import uuid
+from bs4 import BeautifulSoup
 from Crypto import Random
 from Cryptodome.Random import get_random_bytes
 from Cryptodome.Cipher import AES
@@ -14,22 +28,19 @@ from Cryptodome.Cipher import AES
 from Cryptodome.Cipher import AES as domeAES
 # noinspection PyPep8Naming
 from Crypto.Cipher import AES as cryptoAES
-import base64
-import hashlib
 from datetime import datetime, time
-import re
-import requests
-from bs4 import BeautifulSoup
-import speech_recognition as sr
-import threading
-import urllib.request
-import pyttsx3
+from PIL import Image, ImageTk
 from pynput.keyboard import Key, Controller
-import time as times
-import screen_brightness_control as sbc
-import smtplib
-import textwrap
-import random
+
+url = 'http://ipinfo.io/json'
+response = urllib.request.urlopen(url)
+data = json.load(response)
+
+if data['country'] == "US":
+    import datapass_us as data_pass
+else:
+    import datapass_virtue as data_pass
+
 
 global root_main
 global root_sub
@@ -196,11 +207,11 @@ class Extras:
         try:
 
             db = mysql.connector.connect(
-                host=datapass_virtue.host,
-                user=datapass_virtue.user,
-                password=datapass_virtue.password,
-                port=datapass_virtue.port,
-                db=datapass_virtue.db
+                host=data_pass.host,
+                user=data_pass.user,
+                password=data_pass.password,
+                port=data_pass.port,
+                db=data_pass.db
             )
 
             if not args:
@@ -237,11 +248,11 @@ class Extras:
         try:
 
             my_db = mysql.connector.connect(
-                host=datapass_virtue.host,
-                user=datapass_virtue.user,
-                password=datapass_virtue.password,
-                port=datapass_virtue.port,
-                db=datapass_virtue.db
+                host=data_pass.host,
+                user=data_pass.user,
+                password=data_pass.password,
+                port=data_pass.port,
+                db=data_pass.db
             )
 
             my_cursor = my_db.cursor()
@@ -970,8 +981,7 @@ class SignUp:
         month_list_drop = Label(signup_screen, bg="grey")
         month_list_drop.place(relx=190 / 1080, rely=1200 / 1855, relheight=600 / 1855, relwidth=320 / 1080)
 
-        month_list = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                      'November', 'December']
+        month_list = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
         for x in month_list:
             zz = Label(month_list_drop, text=x, anchor=W, bg="grey", fg="white", font=Settings.font_light_10)
@@ -1066,7 +1076,7 @@ class ForgotPassword:
                 current_machine_id = str(uuid.UUID(int=uuid.getnode()))
                 Extras.modify_db('verify_email_2', f"{verify_email},{Extras.encrypt(rnd_otp)},{current_machine_id}")
 
-                sent_from = datapass_virtue.Email
+                sent_from = datapass_us.Email
                 to = [verify_email_entry.get()]
                 subject = 'Password Reset'
                 body = 'Verification Code is %s' % rnd_otp
@@ -1080,7 +1090,7 @@ class ForgotPassword:
                 try:
                     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
                     server.ehlo()
-                    server.login(datapass_virtue.Email, datapass_virtue.Epass)
+                    server.login(datapass_us.Email, datapass_us.Epass)
                     server.sendmail(sent_from, to, message)
                     server.close()
                 except (ValueError, Exception):
@@ -1543,7 +1553,6 @@ class Virtue:
 
             try:
                 audio = r.recognize_google(r.listen(source), language="en-US", key="AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw")
-                print(audio)
                 if "weather" in audio:
                     AudioProcessor.weather(audio)
                 elif any(word in audio for word in
@@ -1909,14 +1918,21 @@ class AudioProcessor:
         session.headers['User-Agent'] = user_agent
         session.headers['Accept-Language'] = language
         session.headers['Content-Language'] = language
-        url = f'https://www.google.com/search?q={audio_filter.replace(" ", "+")}'
+        session.headers['Location'] = ""
+        url = f'https://www.google.com/search?q={str(audio_filter).replace(" ", "+")}'
         html = session.get(url)
         soup = BeautifulSoup(html.text, "html.parser")
 
-        result = {'region': soup.find("div", attrs={"id": "wob_loc"}).text, 'temp_now': soup.find("span", attrs={"id": "wob_tm"}).text,
-                  'dayhour': soup.find("div", attrs={"id": "wob_dts"}).text, 'weather_now': soup.find("span", attrs={"id": "wob_dc"}).text,
-                  'precipitation': soup.find("span", attrs={"id": "wob_pp"}).text, 'humidity': soup.find("span", attrs={"id": "wob_hm"}).text,
-                  'wind': soup.find("span", attrs={"id": "wob_ws"}).text, 'image': re.search('src="//(.*)"/>', str(soup.find("img", attrs={"id": "wob_tci"}))).group(1)}
+        result = {}
+
+        result['region'] = soup.find("div", attrs={"id": "wob_loc"}).text
+        result['temp_now'] = soup.find("span", attrs={"id": "wob_tm"}).text
+        result['dayhour'] = soup.find("div", attrs={"id": "wob_dts"}).text
+        result['weather_now'] = soup.find("span", attrs={"id": "wob_dc"}).text
+        result['precipitation'] = soup.find("span", attrs={"id": "wob_pp"}).text
+        result['humidity'] = soup.find("span", attrs={"id": "wob_hm"}).text
+        result['wind'] = soup.find("span", attrs={"id": "wob_ws"}).text
+        result['image'] = re.search('src="//(.*)"/>', str(soup.find("img", attrs={"id": "wob_tci"}))).group(1)
 
         results_main.place(relx=0, rely=0, relwidth=1080 / 1080, relheight=1450 / 1855)
 
@@ -1928,6 +1944,7 @@ class AudioProcessor:
         results_weather.image = login_back
         results_weather.place(relx=50 / 1080, rely=50 / 1450, relheight=980 / 1450, relwidth=980 / 1080)
 
+        global hover_up
         hover_up = Canvas(results_weather, bg="#181818", borderwidth=0, highlightthickness=0)
         hover_up.place(relx=0, rely=50 / 980, relwidth=1, relheight=880 / 980)
 
@@ -2020,8 +2037,6 @@ class AudioProcessor:
 
         if "brightness" in audio_filter:
 
-            print("brightness detected")
-
             digit_list = re.findall(r'\d+', str(audio_filter))
 
             if "what" in audio_filter:
@@ -2059,7 +2074,6 @@ class AudioProcessor:
                 bright_audio = ""
 
             if len(bright_text) > 0:
-
                 results_main.place(relx=0, rely=0, relwidth=1080 / 1080, relheight=1450 / 1855)
 
                 global results_bright
