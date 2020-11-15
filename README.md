@@ -6,7 +6,7 @@ ISE 535 Project
 A) Libraries
 
 1) Go to Prerequisite folder
-2) Copy PyAudio-0.2.11-cp39-cp39-win_amd64.whl and prerequisite.bat to local computer.
+2) Copy PyAudio-0.2.11-cp39-cp39-win_amd64.whl (Python 3.9) and prerequisite.bat to local computer.
 3) Files must be copied to BaseFolder\Python\Python39\Scripts.
 4) Run prerequisite.bat
 5) Make sure all required libraries are Installed correctly.
