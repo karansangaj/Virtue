@@ -119,6 +119,7 @@ global results_main
 global account_screen
 global results_bright
 global hover_math
+global hover_weather
 
 
 # noinspection SpellCheckingInspection
@@ -1076,7 +1077,7 @@ class ForgotPassword:
                 current_machine_id = str(uuid.UUID(int=uuid.getnode()))
                 Extras.modify_db('verify_email_2', f"{verify_email},{Extras.encrypt(rnd_otp)},{current_machine_id}")
 
-                sent_from = datapass_us.Email
+                sent_from = data_pass.Email
                 to = [verify_email_entry.get()]
                 subject = 'Password Reset'
                 body = 'Verification Code is %s' % rnd_otp
@@ -1090,7 +1091,7 @@ class ForgotPassword:
                 try:
                     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
                     server.ehlo()
-                    server.login(datapass_us.Email, datapass_us.Epass)
+                    server.login(data_pass.Email, data_pass.Epass)
                     server.sendmail(sent_from, to, message)
                     server.close()
                 except (ValueError, Exception):
@@ -1747,6 +1748,7 @@ class Virtue:
         acc_canvas.itemconfig(sign_out, text="Sign out", font=Settings.font_bold_14_segoe, fill="#C0A94A")
         acc_canvas.tag_bind(sign_out, "<Button-1>", Virtue.sign_out)
 
+    # noinspection PyUnusedLocal
     @staticmethod
     def sign_out(event):
 
@@ -1907,7 +1909,7 @@ class AudioProcessor:
             mic.place(relx=450 / 1080, rely=1560 / 1855, relheight=180 / 1855, relwidth=180 / 1080)
             Extras.text_to_speech("Sorry, didn't catch you")
 
-    # noinspection SpellCheckingInspection
+    # noinspection SpellCheckingInspection,PyDictCreation
     @staticmethod
     def weather(audio_filter):
 
@@ -1919,8 +1921,8 @@ class AudioProcessor:
         session.headers['Accept-Language'] = language
         session.headers['Content-Language'] = language
         session.headers['Location'] = ""
-        url = f'https://www.google.com/search?q={str(audio_filter).replace(" ", "+")}'
-        html = session.get(url)
+        url_search = f'https://www.google.com/search?q={str(audio_filter).replace(" ", "+")}'
+        html = session.get(url_search)
         soup = BeautifulSoup(html.text, "html.parser")
 
         result = {}
@@ -1944,47 +1946,47 @@ class AudioProcessor:
         results_weather.image = login_back
         results_weather.place(relx=50 / 1080, rely=50 / 1450, relheight=980 / 1450, relwidth=980 / 1080)
 
-        global hover_up
-        hover_up = Canvas(results_weather, bg="#181818", borderwidth=0, highlightthickness=0)
-        hover_up.place(relx=0, rely=50 / 980, relwidth=1, relheight=880 / 980)
+        global hover_weather
+        hover_weather = Canvas(results_weather, bg="#181818", borderwidth=0, highlightthickness=0)
+        hover_weather.place(relx=0, rely=50 / 980, relwidth=1, relheight=880 / 980)
 
-        close = hover_up.create_text(Extras.scale_x(930), Extras.scale_y(0), anchor=NE)
-        hover_up.itemconfig(close, text="\u2715", font=Settings.font_light_12, fill="#545454")
-        hover_up.tag_bind(close, "<Button-1>", lambda e: results_main.place_forget())
+        close = hover_weather.create_text(Extras.scale_x(930), Extras.scale_y(0), anchor=NE)
+        hover_weather.itemconfig(close, text="\u2715", font=Settings.font_light_12, fill="#545454")
+        hover_weather.tag_bind(close, "<Button-1>", lambda e: results_main.place_forget())
 
-        region = hover_up.create_text(Extras.scale_x(50), Extras.scale_y(100), anchor="w")
-        hover_up.itemconfig(region, text=result['region'].split(",")[0] + ', ' + (result['region'].split(",")[1]).split()[0], font=Settings.font_light_16_segoe, fill="white")
+        region = hover_weather.create_text(Extras.scale_x(50), Extras.scale_y(100), anchor="w")
+        hover_weather.itemconfig(region, text=result['region'].split(",")[0] + ', ' + (result['region'].split(",")[1]).split()[0], font=Settings.font_light_16_segoe, fill="white")
 
-        day = hover_up.create_text(Extras.scale_x(50), Extras.scale_y(185), anchor="w")
-        hover_up.itemconfig(day, text=result['dayhour'], font=Settings.font_light_14_segoe, fill="white")
+        day = hover_weather.create_text(Extras.scale_x(50), Extras.scale_y(185), anchor="w")
+        hover_weather.itemconfig(day, text=result['dayhour'], font=Settings.font_light_14_segoe, fill="white")
         img_file = io.BytesIO(urllib.request.urlopen("https://" + result['image']).read())
         im = ImageTk.PhotoImage(Image.open(img_file).convert('RGBA').resize((Extras.scale_x(275), Extras.scale_y(275))))
-        hover_up.create_image(Extras.scale_x(25), Extras.scale_y(280), image=im, anchor=NW)
-        hover_up.image = im
+        hover_weather.create_image(Extras.scale_x(25), Extras.scale_y(280), image=im, anchor=NW)
+        hover_weather.image = im
 
-        temp = hover_up.create_text(Extras.scale_x(350), Extras.scale_y(365), anchor="w")
-        hover_up.itemconfig(temp, text=result['temp_now'], font=Settings.font_bold_36_segoe, fill="white")
+        temp = hover_weather.create_text(Extras.scale_x(350), Extras.scale_y(365), anchor="w")
+        hover_weather.itemconfig(temp, text=result['temp_now'], font=Settings.font_bold_36_segoe, fill="white")
 
-        degree = hover_up.create_text(hover_up.bbox(temp)[2] + Extras.scale_x(10), Extras.scale_y(360), anchor="w")
-        hover_up.itemconfig(degree, text="\u00B0", font=Settings.font_light_24, fill="white")
+        degree = hover_weather.create_text(hover_weather.bbox(temp)[2] + Extras.scale_x(10), Extras.scale_y(360), anchor="w")
+        hover_weather.itemconfig(degree, text="\u00B0", font=Settings.font_light_24, fill="white")
 
-        cel = hover_up.create_text(hover_up.bbox(temp)[2] + Extras.scale_x(50), Extras.scale_y(360), anchor="w")
-        hover_up.itemconfig(cel, text="C", font=Settings.font_light_24, fill="white")
+        cel = hover_weather.create_text(hover_weather.bbox(temp)[2] + Extras.scale_x(50), Extras.scale_y(360), anchor="w")
+        hover_weather.itemconfig(cel, text="C", font=Settings.font_light_24, fill="white")
 
-        weather_now = hover_up.create_text(Extras.scale_x(350), Extras.scale_y(480), anchor="w")
-        hover_up.itemconfig(weather_now, text=result['weather_now'], font=Settings.font_light_14_segoe, fill="white")
+        weather_now = hover_weather.create_text(Extras.scale_x(350), Extras.scale_y(480), anchor="w")
+        hover_weather.itemconfig(weather_now, text=result['weather_now'], font=Settings.font_light_14_segoe, fill="white")
 
-        precipitation = hover_up.create_text(Extras.scale_x(50), Extras.scale_y(650), anchor="w")
-        hover_up.itemconfig(precipitation, text="Precipitation : " + result['precipitation'], font=Settings.font_light_14_segoe, fill="white")
+        precipitation = hover_weather.create_text(Extras.scale_x(50), Extras.scale_y(650), anchor="w")
+        hover_weather.itemconfig(precipitation, text="Precipitation : " + result['precipitation'], font=Settings.font_light_14_segoe, fill="white")
 
-        humidity = hover_up.create_text(Extras.scale_x(500), Extras.scale_y(650), anchor="w")
-        hover_up.itemconfig(humidity, text="Humidity : " + result['humidity'], font=Settings.font_light_14_segoe, fill="white")
+        humidity = hover_weather.create_text(Extras.scale_x(500), Extras.scale_y(650), anchor="w")
+        hover_weather.itemconfig(humidity, text="Humidity : " + result['humidity'], font=Settings.font_light_14_segoe, fill="white")
 
-        wind = hover_up.create_text(Extras.scale_x(50), Extras.scale_y(720), anchor="w")
-        hover_up.itemconfig(wind, text="Wind : " + result['wind'], font=Settings.font_light_14_segoe, fill="white")
+        wind = hover_weather.create_text(Extras.scale_x(50), Extras.scale_y(720), anchor="w")
+        hover_weather.itemconfig(wind, text="Wind : " + result['wind'], font=Settings.font_light_14_segoe, fill="white")
 
-        sponsor = hover_up.create_text(Extras.scale_x(650), Extras.scale_y(855), anchor="w")
-        hover_up.itemconfig(sponsor, text="powered by Google", font=Settings.font_light_10_segoe, fill="#727272")
+        sponsor = hover_weather.create_text(Extras.scale_x(650), Extras.scale_y(855), anchor="w")
+        hover_weather.itemconfig(sponsor, text="powered by Google", font=Settings.font_light_10_segoe, fill="#727272")
 
         animation_mask.place(relx=140 / 1080, rely=1500 / 1855, relwidth=800 / 1080, relheight=300 / 1855)
         mic.place(relx=450 / 1080, rely=1560 / 1855, relheight=180 / 1855, relwidth=180 / 1080)
