@@ -73,3 +73,11 @@ Known Issue: Console Cannot be set to False in setup.spec file
 ### Open Applications
 1) Open Netflix
 2) Open Calculator
+
+## Application Features
+
+1) Create Account
+2) Reset Account password via email verification
+3) Stay Signed In
+4) AES Password Encryption
+5) Seamless UI
