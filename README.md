@@ -1,5 +1,5 @@
 # Virtue
-ISE 535 Project
+Virtual Assistant
 
 ## Prerequisites
 
